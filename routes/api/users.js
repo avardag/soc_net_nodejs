@@ -4,6 +4,8 @@ const User = require("../../models/User");
 
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const secretKey = require("../../config/keys").SECRET_KEY;
 
 /**
  * @route   GET api/users/test
@@ -60,7 +62,7 @@ router.post("/register", (req, res) => {
  */
 router.post("/login", (req, res) => {
   //Find user by email
-  User.findOne({ email:req.body.email }).then(user => {
+  User.findOne({ email: req.body.email }).then(user => {
     //check for user
     if (!user) {
       return res.status(404).json({ email: "User email not found" });
@@ -68,7 +70,12 @@ router.post("/login", (req, res) => {
     //check password
     bcrypt.compare(req.body.password, user.password).then(isMatch => {
       if (isMatch) {
-        res.json({ msg: "Success" });
+        // user Matched
+        const payload = { id: user.id, name: user.name }; //creates JWT payload
+        //Sign Token
+        jwt.sign(payload, secretKey, { expiresIn: 3600 }, (err, token) => {
+          res.json({ success: true, token: "Bearer " + token });
+        });
       } else {
         return res.status(400).json({ password: "password incorrect" });
       }
