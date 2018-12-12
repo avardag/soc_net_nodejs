@@ -26,7 +26,7 @@ export const registerUser = (userData, thisPropsHistory) => dispatch =>{
 
 //Login user - Get user token
 export const loginUser = (userData) => dispatch =>{
-  axios.post("/api/user/login", userData)
+  axios.post("/api/users/login", userData)
     .then(res =>{
       //save token to localStorage
       localStorage.setItem('jwtToken', res.data.token)
@@ -37,6 +37,10 @@ export const loginUser = (userData) => dispatch =>{
       const decoded = jwtDecode(res.data.token)
       // set curent user
       dispatch(setCurrentUser(decoded))
+      // dispatch({
+      //   type: GET_ERRORS,
+      //   payload: {}
+      // })
     })
     .catch(err=> dispatch({
       type: GET_ERRORS,
