@@ -5,6 +5,10 @@ import { BrowserRouter, Route } from "react-router-dom";
 //Redux imports
 import { Provider } from 'react-redux';
 import store from "./store";
+//check isAuthorized
+import jwtDecode from 'jwt-decode';
+import setAuthToken from './utils/setAuthToken';
+import { setCurrentUser } from "./actions/authActions";
 //Components
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
@@ -12,7 +16,16 @@ import Landing from "./components/layout/Landing";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 
-
+//PERSIST LOGIN
+//check for token
+if (localStorage.jwtToken) {
+  //set auth token to request headers
+  setAuthToken(localStorage.jwtToken);
+  //decode token and get user info and exp
+  const decoded = jwtDecode(localStorage.jwtToken);
+  //set user and isAuthenticated to true
+  store.dispatch(setCurrentUser(decoded));
+}
 
 class App extends Component {
   render() {
