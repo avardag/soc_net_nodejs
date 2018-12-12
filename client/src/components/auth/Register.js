@@ -20,6 +20,13 @@ class Register extends Component {
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
+  //if authenticated dont allow to see this page, redirect
+  componentDidMount() {
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push("/dashboard");
+    }
+  }
+  
   onInputChange(e) {
     this.setState({
       [e.target.name]: e.target.value

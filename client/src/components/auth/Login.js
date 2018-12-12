@@ -40,6 +40,13 @@ class Login extends Component {
       this.props.history.push("/dashboard");
     }
   }
+  //if authenticated dont allow to see this page, redirect
+  componentDidMount() {
+    if(this.props.auth.isAuthenticated){
+      this.props.history.push("/dashboard");
+    }
+  }
+  
   render() {
     const {errors} = this.state;
 
