@@ -5,6 +5,10 @@ import TextFieldGroup from "../common/TextFieldGroup";
 import TextareaFieldGroup from "../common/TextareaFieldGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import InputGroup from "../common/InputGroup";
+//redux action for props
+import { createProfile } from "../../actions/profileActions";
+//import withRouter to be able to redirect or push history with redux state
+import { withRouter } from 'react-router-dom';
 
 class CreateProfile extends Component {
   constructor(props) {
@@ -32,12 +36,34 @@ class CreateProfile extends Component {
 
   onFormSubmit(e) {
     e.preventDefault();
+    const profileData = {
+      handle: this.state.handle,
+      company: this.state.company,
+      website: this.state.website,
+      location: this.state.location,
+      status: this.state.status,
+      skills: this.state.skills,
+      githubUsername: this.state.githubUsername,
+      bio: this.state.bio,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram,
+    }
+    this.props.createProfile(profileData, this.props.history)
   }
 
   onInputChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
-
+  //if redux action gets errors, will be set to props.errors
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.errors){
+      this.setState({errors: nextProps.errors})
+    }
+  }
+  
   render() {
     const { errors, displaySocialInputs } = this.state;
     const options = [
@@ -123,6 +149,7 @@ class CreateProfile extends Component {
 
                 <div className="mb-3">
                   <button
+                    type='button'
                     className="btn btn-light"
                     onClick={() => this.setState(prevState=>({
                       displaySocialInputs: !prevState.displaySocialInputs
@@ -189,7 +216,8 @@ class CreateProfile extends Component {
 
 CreateProfile.propTypes = {
   profile: PropTypes.object.isRequired,
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
+  createProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -198,5 +226,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  null
-)(CreateProfile);
+  {createProfile}
+)(withRouter(CreateProfile));
