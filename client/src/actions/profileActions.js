@@ -35,6 +35,16 @@ export const addExperience = (expData, thisPropsHistory) => dispatch =>{
     }))
 }
 
+//Add education
+export const addEducation = (eduData, thisPropsHistory) => dispatch =>{
+  axios.post("/api/profile/education", eduData)
+    .then(res=> thisPropsHistory.push("/dashboard"))
+    .catch(err=>dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
+    }))
+}
+
 //DELETE account and profile
 export const deleteAccount = () => dispatch =>{
   if(window.confirm("Are you sure you want to delete account?")){
