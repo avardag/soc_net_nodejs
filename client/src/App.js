@@ -24,7 +24,7 @@ import CreateProfile from './components/create_profile/CreateProfile';
 import EditProfile from "./components/edit_profile/EditProfile";
 import AddExperience from "./components/add_exp_edu/AddExperience";
 import AddEducation from "./components/add_exp_edu/AddEducation";
-
+import Profiles from './components/profiles/Profiles';
 
 
 //PERSIST LOGIN
@@ -75,6 +75,7 @@ class App extends Component {
               <Switch>
                 <PrivateRoute path="/add-education" component={AddEducation} exact />
               </Switch>
+              <Route path="/profiles" component={Profiles} exact />
             </div>
 
             <Footer />
