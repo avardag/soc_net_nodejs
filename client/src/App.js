@@ -26,6 +26,7 @@ import AddExperience from "./components/add_exp_edu/AddExperience";
 import AddEducation from "./components/add_exp_edu/AddEducation";
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
+import NotFound from './components/not_found/NotFound';
 
 
 //PERSIST LOGIN
@@ -78,6 +79,7 @@ class App extends Component {
               </Switch>
               <Route path="/profiles" component={Profiles} exact />
               <Route path="/profile/:handle" component={Profile} exact />
+              <Route path="/not-found" component={NotFound} exact />
             </div>
 
             <Footer />
