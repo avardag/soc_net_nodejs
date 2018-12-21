@@ -41,6 +41,26 @@ export const deletePost = (id) => dispatch =>{
       payload: err.response.data
     }))
 }
+//Add a like to a Post
+export const addLike = (id) => dispatch =>{
+
+  axios.post(`/api/posts/like/${id}`)
+    .then(res => dispatch(getPosts()))
+    .catch(err => dispatch({ 
+      type: GET_ERRORS,
+      payload: err.response.data
+    }))
+}
+//remove like from a Post
+export const removeLike = (id) => dispatch =>{
+
+  axios.post(`/api/posts/unlike/${id}`)
+    .then(res => dispatch(getPosts()))
+    .catch(err => dispatch({ 
+      type: GET_ERRORS,
+      payload: err.response.data
+    }))
+}
 
 // set loading state
 export const setPostLoading = () =>{

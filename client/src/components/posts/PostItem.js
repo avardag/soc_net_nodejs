@@ -3,13 +3,28 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-import { deletePost } from "../../actions/postActions";
+import { deletePost, addLike, removeLike } from "../../actions/postActions";
 
 
-const PostItem = ({ post, auth, deletePost }) => {
+const PostItem = ({ post, auth, deletePost, addLike, removeLike }) => {
   const onDeleteClick = (id) =>{
     deletePost(id)
   }
+  const onLikeClick = (id) =>{
+    addLike(id)
+  }
+  const onUnLikeClick = (id) =>{
+    removeLike(id)
+  }
+  // find if user has liked the post , to display green thumb
+  const findUserLikes = (likes) =>{
+    if (likes.filter(like => like.user === auth.user.id).length > 0) {
+      return true
+    } else {
+      return false
+    }
+  }
+
   return (
     <div className="card card-body mb-3">
       <div className="row">
@@ -26,11 +41,13 @@ const PostItem = ({ post, auth, deletePost }) => {
         </div>
         <div className="col-md-10">
           <p className="lead">{post.text} </p>
-          <button type="button" className="btn btn-light mr-1">
-            <i className="text-info fas fa-thumbs-up" />
+          <button onClick={()=> onLikeClick(post._id)} type="button" className="btn btn-light mr-1">
+            <i className={classnames("fas fa-thumbs-up", {
+              "text-info": findUserLikes(post.likes)
+            })} />
             <span className="badge badge-light">{post.likes.length}</span>
           </button>
-          <button type="button" className="btn btn-light mr-1">
+          <button onClick={()=> onUnLikeClick(post._id)} type="button" className="btn btn-light mr-1">
             <i className="text-secondary fas fa-thumbs-down" />
           </button>
           <Link to={`/post/${post._id}`} className="btn btn-info mr-1">
@@ -54,7 +71,9 @@ const PostItem = ({ post, auth, deletePost }) => {
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  deletePost: PropTypes.func.isRequired
+  deletePost: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -62,5 +81,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  { deletePost }
+  { deletePost, addLike, removeLike }
 )(PostItem);
