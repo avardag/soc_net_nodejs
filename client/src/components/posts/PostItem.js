@@ -3,10 +3,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
+import { deletePost } from "../../actions/postActions";
 
-const PostItem = ({ post, auth }) => {
+
+const PostItem = ({ post, auth, deletePost }) => {
   const onDeleteClick = (id) =>{
-    console.log('id', id);
+    deletePost(id)
   }
   return (
     <div className="card card-body mb-3">
@@ -51,7 +53,8 @@ const PostItem = ({ post, auth }) => {
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  deletePost: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -59,5 +62,5 @@ const mapStateToProps = state => ({
 });
 export default connect(
   mapStateToProps,
-  {}
+  { deletePost }
 )(PostItem);
