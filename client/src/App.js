@@ -27,7 +27,8 @@ import AddEducation from "./components/add_exp_edu/AddEducation";
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/profile/Profile';
 import NotFound from './components/not_found/NotFound';
-import Post from './components/posts/Post';
+import Posts from './components/posts/Posts';
+import Post from './components/post/Post';
 
 
 //PERSIST LOGIN
@@ -82,7 +83,10 @@ class App extends Component {
               <Route path="/profile/:handle" component={Profile} exact />
               <Route path="/not-found" component={NotFound} exact />
               <Switch>
-                <PrivateRoute path="/feed" component={Post} exact />
+                <PrivateRoute path="/feed" component={Posts} exact />
+              </Switch>
+              <Switch>
+                <PrivateRoute path="/post/:id" component={Post} exact />
               </Switch>
             </div>
 
